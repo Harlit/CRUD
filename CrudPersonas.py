@@ -40,6 +40,7 @@ def insertar(persona):
         # Mostramos un mensaje al usuario indicando el éxito
         messagebox.showinfo("Operación exitosa",
                             "Se ha insertado correctamente a " + persona.nombre + " " + persona.apellido)
+        limpiar_campos()
 
     except sqlite3.IntegrityError:
         # Si ocurre un error al insertar por clave duplicada mostramos un mensaje al usuario indicando el fallo
@@ -48,6 +49,8 @@ def insertar(persona):
     finally:
         # Cerramos la conexión
         conexion.close()
+
+
 
 
 # Creamos la función consultar
@@ -95,6 +98,7 @@ def modificar(persona):
             # Si hay filas afectadas mostramos un mensaje al usuario indicando el éxito
             messagebox.showinfo("Operación exitosa",
                                 "Se ha modificado correctamente a " + persona.nombre + " " + persona.apellido)
+            limpiar_campos()
 
         else:
             # Si no hay filas afectadas mostramos un mensaje al usuario indicando que no se encontró a la persona
@@ -123,6 +127,7 @@ def eliminar(dni):
         if cursor.rowcount > 0:
             # Si hay filas afectadas mostramos un mensaje al usuario indicando el éxito
             messagebox.showinfo("Operación exitosa", "Se ha eliminado correctamente a la persona con el DNI " + dni)
+            limpiar_campos()
 
         else:
             # Si no hay filas afectadas mostramos un mensaje al usuario indicando que no se encontró a la persona
@@ -177,6 +182,20 @@ boton_modificar.grid(row=4, column=0, padx=10, pady=10)
 # Botón para eliminar
 boton_eliminar = Button(ventana, text="Eliminar", command=lambda: eliminar(dni_entry.get()))
 boton_eliminar.grid(row=4, column=1, padx=10, pady=10)
+
+
+def limpiar_campos():
+    # Obtenemos las variables globales
+    global nombre_entry, apellido_entry, dni_entry, nombre_label, apellido_label, dni_label
+
+    # Limpiamos los valores de las cajas de texto
+    nombre_entry.delete(0, END)
+    apellido_entry.delete(0, END)
+    dni_entry.delete(0, END)
+
+    # Limpiamos los valores de los labels
+
+
 
 # Ejecutamos la ventana principal
 ventana.mainloop()
